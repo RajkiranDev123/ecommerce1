@@ -1,0 +1,21 @@
+npm init -y
+
+npm i express cors mongoose bcryptjs cookie-parser dotenv morgan helmet jsonwebtoken
+
+npm i --save-dev nodemon
+npm i resend 
+
+resend :(for sending mail)
+rajtech6452gmail.com
+   api key => create api key =>name : bclone , sending access : all domains
+
+ npm i multer
+ npm i cloudinary
+
+ github :
+ git init
+git add .
+git commit -m "first commit"
+git branch -M main
+git remote add origin https://github.com/RajkiranDev123/ecommerce1.git
+git push -u origin main
