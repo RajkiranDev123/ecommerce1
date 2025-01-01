@@ -13,14 +13,10 @@ import { setUserDetails } from '../store/userSlice';
 const Login = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
-    const [data, setData] = useState({
-
-        email: "",
-        password: "",
-
-    })
+    const [data, setData] = useState({ email: "", password: "" })
     const [showPassword, setShowPassword] = useState(false)
 
+    console.log("data ==> ",data)
 
     const handleChange = (e) => {
         const { name, value } = e.target
@@ -28,6 +24,7 @@ const Login = () => {
             return { ...prev, [name]: value }
         })
     }
+
     const valid = Object.values(data).every(el => el)
 
     const handleSubmit = async (e) => {
@@ -58,7 +55,7 @@ const Login = () => {
     return (
         <section >
             <div className='bg-white  my-4 max-w-lg mx-auto p-4 rounded'>
-                <p>Login to Blinkit Clone</p>
+                <p className='text-green-500 font-semibold '>Login Page</p>
                 <form className='mt-4' onSubmit={handleSubmit}>
                     <div className='grid'>
 

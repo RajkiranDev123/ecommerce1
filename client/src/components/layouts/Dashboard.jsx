@@ -11,7 +11,7 @@ const Dashboard = () => {
 
 
                 {/* right menu */}
-                <div className=''><Outlet/></div>
+                <div className=''><Outlet /></div>
             </div>
         </section>
     )

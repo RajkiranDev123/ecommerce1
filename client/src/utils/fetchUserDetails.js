@@ -1,6 +1,7 @@
 
 import Axios from "./Axios"
 import SummaryApi from "../common/SummaryApi"
+import AxiosToastError from "./AxiosToastError"
 const fetchUserDetails = async () => {
     try {
         const response = await Axios({
@@ -10,6 +11,7 @@ const fetchUserDetails = async () => {
         return response.data
     } catch (error) {
         console.log(error)
+        AxiosToastError(error)
     }
 }
 

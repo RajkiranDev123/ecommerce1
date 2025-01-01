@@ -8,17 +8,13 @@ import AxiosToastError from "../utils/AxiosToastError"
 import { Link, useNavigate } from 'react-router-dom';
 const Register = () => {
     const navigate = useNavigate()
-    const [data, setData] = useState({
-        name: "",
-        email: "",
-        password: "",
-        confirmPassword: ""
-    })
+    const [data, setData] = useState({ name: "", email: "", password: "", confirmPassword: "" })
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
 
     const handleChange = (e) => {
         const { name, value } = e.target
+
         setData((prev) => {
             return { ...prev, [name]: value }
         })
@@ -30,13 +26,14 @@ const Register = () => {
         if (data.password !== data.confirmPassword) {
             toast.error("password and confirm password are not same!")
             return
+            // if you dont return try will run after error
         }
         try {
             const response = await Axios({
                 ...SummaryApi.register,
                 data: data
             })
-            console.log("response ==> ",response)
+            console.log("response ==> ", response)
             if (response?.data?.success) {
                 toast.success("Registration done!")
                 setData({
@@ -48,25 +45,25 @@ const Register = () => {
                 navigate("/login")
             }
         } catch (error) {
-            console.log("error==>",error)
+            console.log("error==>", error)
             AxiosToastError(error)
         }
     }
     return (
         <section >
-            <div className='bg-white  my-4 max-w-lg mx-auto p-4 rounded'>
-                <p>Welcome to Blinkit Clone</p>
-                <form className='mt-4' onSubmit={handleSubmit}>
+            <div className='bg-white  mt-4 max-w-sm mx-auto p-4 rounded'>
+                <p className='font-semibold'>Register here...</p>
+                <form className='mt-3' onSubmit={handleSubmit}>
                     <div className='grid'>
                         {/* name */}
                         <label htmlFor='name'>Name</label>
-                        <input type='text' name='name' value={data.name} onChange={handleChange} className='bg-blue-50 p-2 outline-none focus:border-bg-red-500' autoFocus placeholder='Name' />
+                        <input type='text' name='name' value={data.name} onChange={handleChange} className='bg-blue-50 p-2 ' autoFocus placeholder='Name' />
                         {/* email */}
                         <label htmlFor='email'>Email</label>
                         <input type='text' name='email' value={data.email} onChange={handleChange} className='bg-blue-50 p-2' placeholder='Email' />
                         {/* password */}
                         <label htmlFor='password'>Password</label>
-                        <div className='flex items-center w-full bg-blue-50 p-1 focus-within:border-bg-yellow'>
+                        <div className='flex items-center w-full bg-blue-50 p-1'>
                             <input type={showPassword ? "text" : "password"} name='password' value={data.password} onChange={handleChange} className='bg-blue-50 p-2 w-full outline-none' placeholder='Password' />
                             {
                                 showPassword ? < FaRegEye onClick={() => setShowPassword(!showPassword)} /> : <FaRegEyeSlash onClick={() => setShowPassword(!showPassword)} />

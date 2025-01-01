@@ -29,8 +29,9 @@ Axios.interceptors.response.use(
         return response
     },
     async (error) => {
+        console.log("Axios.interceptors.response.use")
         let originRequest = error.config
-        if (error.response.status == 401 && !originRequest.retry) {
+        if (error?.response?.status == 401 && !originRequest.retry) {
             originRequest.retry = true
             const refreshToken = localStorage.getItem("refreshToken")
 

@@ -9,4 +9,12 @@
 
     }
 
+    .header_items>div>.acc {
+        /* background: red; */
+        display: flex;
+        justify-content: center;
+
+
+    }
+
 }

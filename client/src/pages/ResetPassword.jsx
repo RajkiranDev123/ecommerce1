@@ -8,16 +8,11 @@ import AxiosToastError from "../utils/AxiosToastError"
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 const ResetPassword = () => {
     const navigate = useNavigate()
-    const [data, setData] = useState({
-        email: "",
-        newPassword: "",
-        confirmPassword: ""
-    })
+    const [data, setData] = useState({ email: "", newPassword: "", confirmPassword: "" })
     const [showPassword, setShowPassword] = useState(false)
     const [showConfirmPassword, setShowConfirmPassword] = useState(false)
     const location = useLocation()
     console.log("location from reset password", location)
-
     const handleChange = (e) => {
         const { name, value } = e.target
         setData((prev) => {
@@ -25,7 +20,6 @@ const ResetPassword = () => {
         })
     }
     const valid = Object.values(data).every(el => el)
-
     const handleSubmit = async (e) => {
         e.preventDefault()
         if (data.newPassword !== data.confirmPassword) {
@@ -54,7 +48,6 @@ const ResetPassword = () => {
         }
     }
     useEffect(() => {
-
         if (!location?.state?.data?.success) {
             navigate("/")
         }
@@ -63,9 +56,6 @@ const ResetPassword = () => {
                 return { ...prev, email: location?.state?.email }
             })
         }
-
-
-
     }, [])
     return (
         <section >
@@ -76,7 +66,7 @@ const ResetPassword = () => {
 
 
                         {/* password */}
-                        <label htmlFor='password'>Password</label>
+                        <label htmlFor='password'>New Password</label>
                         <div className='flex items-center w-full bg-blue-50 p-1 focus-within:border-bg-yellow'>
                             <input type={showPassword ? "text" : "password"} name='newPassword' value={data.password} onChange={handleChange} className='bg-blue-50 p-2 w-full outline-none' placeholder='Password' />
                             {

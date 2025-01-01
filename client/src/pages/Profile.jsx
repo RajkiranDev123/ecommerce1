@@ -9,15 +9,11 @@ import toast from 'react-hot-toast'
 import fetchUserDetails from "../utils/fetchUserDetails"
 import { setUserDetails } from '../store/userSlice'
 const Profile = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const user = useSelector(state => state.user)
-  console.log("user from profile", user)
+  console.log("user from profile ==>", user)
   const [openProfileAvatarEdit, setProfileAvatarEdit] = useState(false)
-  const [userData, setUserData] = useState({
-    name: user?.name,
-    email: user?.email,
-    mobile: user?.mobile
-  })
+  const [userData, setUserData] = useState({ name: user?.name, email: user?.email, mobile: user?.mobile })
   const [loading, setLoading] = useState(false)
 
   const handleOnChange = (e) => {
@@ -38,11 +34,9 @@ const Profile = () => {
       const { data: responseData } = response
       if (responseData.success) {
         toast.success(responseData.message)
-        const userData=await fetchUserDetails()
+        const userData = await fetchUserDetails()
         dispatch(setUserDetails(userData.data))
-
       }
-
     } catch (error) {
       AxiosToastError(error)
     } finally {
