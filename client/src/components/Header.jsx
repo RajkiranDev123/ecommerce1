@@ -28,7 +28,7 @@ const Header = () => {
     }
     return (
         // header tag
-        <header className='shadow-md sticky top-0 bg-white'>
+        <header className='shadow-md sticky top-0 bg-white z-40'>
             {/*className= "container w-40 mx-auto" ==> to center the container */}
             {(location.pathname == "/search" && isMobile) ?
 
@@ -67,9 +67,10 @@ const Header = () => {
 
                                         <div className='flex items-center gap-4'>
                                             <p className='cursor-pointer' onClick={() => setOpenUserMenu(p => !p)}>Account</p>
-                                            {openUserMenu ? <GoTriangleDown onClick={() => setOpenUserMenu(p => !p)} className='cursor-pointer' />
-                                                :
+                                            {openUserMenu ?
                                                 <GoTriangleUp className='cursor-pointer' onClick={() => setOpenUserMenu(p => !p)} />
+                                                :
+                                                <GoTriangleDown onClick={() => setOpenUserMenu(p => !p)} className='cursor-pointer' />
                                             }
                                         </div>
 

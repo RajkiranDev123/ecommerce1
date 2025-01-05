@@ -10,6 +10,7 @@ import SummaryApi from '../common/SummaryApi'
 import { logout } from "../store/userSlice"
 import { useDispatch } from 'react-redux'
 import { HiOutlineExternalLink } from "react-icons/hi"
+import { isAdmin } from "../utils/isAdmin"
 
 const UserMenu = ({ close }) => {
     const user = useSelector(state => state?.user)
@@ -34,11 +35,15 @@ const UserMenu = ({ close }) => {
     return (
         <div className=''>
             <p style={{ fontSize: 13, fontWeight: "bold", display: "flex", alignItems: "center" }}>Account &nbsp;
-                <Link to={"/dashboard/profile"} onClick={()=>close()}><HiOutlineExternalLink size={19} className='cursor-pointer' /></Link>
+                <Link to={"/dashboard/profile"} onClick={() => close()}><HiOutlineExternalLink size={19} className='cursor-pointer' /></Link>
             </p>
-            <div>{user?.name}</div>
+            <div>{user?.name} {isAdmin(user?.role) ? <span style={{ fontSize: 10, color: "red" }}>(Admin)</span> : <span style={{ color: "red", fontSize: 10 }}>(User)</span>}</div>
             <Divider />
             <div className='grid'>
+                {isAdmin(user?.role) && <><Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/category"}>Category</Link>
+                    <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/subcategory"}>Sub Category</Link>
+                    <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/upload-product"}>Upload Product</Link>
+                    <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/product"}>Product</Link></>}
                 <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/myorders"}>My Orders</Link>
                 <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} to={"/dashboard/address"}>Save Address</Link>
                 <Link className='hover:bg-orange-200 ' style={{ fontSize: 12, fontWeight: 500 }} onClick={logoutUser} to={""}>Logout</Link>

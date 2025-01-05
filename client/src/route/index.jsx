@@ -12,6 +12,19 @@ import Dashboard from "../components/layouts/Dashboard"
 import Profile from "../pages/Profile"
 import MyOrders from "../pages/MyOrders"
 import Address from "../pages/Address"
+import Category from "../pages/Category"
+import SubCategory from "../pages/SubCategory"
+import UploadProduct from "../pages/UploadProduct"
+import ProductAdmin from "../pages/ProductAdmin"
+import AdminPermissionHOC from "../components/layouts/AdminPermissionHOC"
+
+
+
+
+
+
+
+
 
 const router = createBrowserRouter(
     [
@@ -54,7 +67,7 @@ const router = createBrowserRouter(
                 {
                     path: "dashboard",
                     element: <Dashboard />,
-                    children:[
+                    children: [
                         {
                             path: "profile",
                             element: <Profile />,
@@ -66,7 +79,23 @@ const router = createBrowserRouter(
                         {
                             path: "address",
                             element: <Address />,
-                        }
+                        },
+                        {
+                            path: "category",
+                            element: <AdminPermissionHOC><Category /></AdminPermissionHOC>,
+                        },
+                        {
+                            path: "subcategory",
+                            element: <AdminPermissionHOC><SubCategory /></AdminPermissionHOC>,
+                        },
+                        {
+                            path: "upload-product",
+                            element: <AdminPermissionHOC><UploadProduct /></AdminPermissionHOC>,
+                        },
+                        {
+                            path: "product",
+                            element: <AdminPermissionHOC><ProductAdmin /></AdminPermissionHOC>,
+                        },
                     ]
                 },
             ]

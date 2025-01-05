@@ -29,13 +29,16 @@ Axios.interceptors.response.use(
         return response
     },
     async (error) => {
-        console.log("Axios.interceptors.response.use")
+     
         let originRequest = error.config
         if (error?.response?.status == 401 && !originRequest.retry) {
             originRequest.retry = true
+
             const refreshToken = localStorage.getItem("refreshToken")
 
             if (refreshToken) {
+        
+
                 const newAccessToken = await refreshAccessToken(refreshToken)
                 if (newAccessToken) {
                     originRequest.headers.Authorization = `Bearer ${newAccessToken}`
@@ -51,6 +54,7 @@ Axios.interceptors.response.use(
 //api call
 const refreshAccessToken = async (refreshToken) => {
     try {
+        console.log("refresj token from front end",refreshToken)
         const response = await Axios({
             ...SummaryApi.refreshToken,
             headers: {

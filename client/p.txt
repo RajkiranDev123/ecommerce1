@@ -32,3 +32,6 @@ https://fonts.google.com/   : search poppins   : select  get code : get embedded
 npm i react-hot-toast
 npm i axios
 npm i @reduxjs/toolkit react-redux
+
+https://tanstack.com/table/latest/docs/installation#react-table :
+npm install @tanstack/react-table
