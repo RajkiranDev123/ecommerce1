@@ -9,7 +9,7 @@ import generateRefreshToken from "../utils/generateRefreshToken.js"
 import uploadImageCloudinary from "../utils/uploadImageCloudinary.js"
 import generateOtp from "../utils/generateOtp.js"
 import forgotPasswordTemplate from "../utils/forgotPasswordTemplate.js"
-//////////////////////////////////// register //////////////////////////////////////////////////
+//////////////////////////////////// register  (1) //////////////////////////////////////////////////
 // export const reg=async()=>{}
 export async function register(req, res) {
     const { name, email, password } = req.body
@@ -26,8 +26,8 @@ export async function register(req, res) {
         const payload = { name, email, password: hashedPassword }
         const newUser = new UserModel(payload)
         const save = await newUser.save()//returns saved doc {} too!
-        const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save?._id}`
-        const mail = await sendEmail({ sendTo: email, subject: "Verify email !", html: verifyEmailTemplate({ name, url: verifyEmailUrl }) })
+        // const verifyEmailUrl = `${process.env.FRONTEND_URL}/verify-email?code=${save?._id}`
+        // const mail = await sendEmail({ sendTo: email, subject: "Verify email !", html: verifyEmailTemplate({ name, url: verifyEmailUrl }) })
 
         return res.status(201).json({ message: "User registered!", error: false, success: true, data: save })
     } catch (error) {
@@ -36,7 +36,7 @@ export async function register(req, res) {
     }
 }
 
-///////////////////////////////////////////// login ///////////////////////////////////////
+///////////////////////////////////////////// login (2)  ///////////////////////////////////////
 //401 : UnAuthorized
 export async function login(req, res) {
     const { email, password } = req.body
@@ -65,7 +65,7 @@ export async function login(req, res) {
     }
 }
 
-/////////////////////////////////////////////////////////logout ////////////////////////////////////////////////////
+/////////////////////////////////////////////////////////logout (3) ////////////////////////////////////////////////////
 
 export async function logout(req, res) {
     try {
@@ -74,7 +74,7 @@ export async function logout(req, res) {
         const cookiesOption = { httpOnly: true, secure: true, sameSite: "None" }
         res.clearCookie("accessToken", cookiesOption)
         res.clearCookie("refreshToken", cookiesOption)
-        const removeRefreshToken = await UserModel.findByIdAndUpdate(userId, { refresh_token: "" })
+        const removeRefreshToken = await UserModel.findByIdAndUpdate(userId, { refresh_token: "" ,last_login_date:""})
         return res.status(200).json({ message: "logout done!", error: false, success: true })
     } catch (error) {
         console.log(error.message)
@@ -82,7 +82,7 @@ export async function logout(req, res) {
     }
 }
 
-///////////////////////////////////////////////////// verify email ////////////////////////////////////////////
+///////////////////////////////////////////////////// verify email (4) ////////////////////////////////////////////
 
 export async function verifyEmail(req, res) {
     try {
@@ -102,7 +102,7 @@ export async function verifyEmail(req, res) {
 
 
 
-////////////////////////////////////////////////// upload avatar ////////////////////////////
+////////////////////////////////////////////////// upload avatar (5) ////////////////////////////
 export async function uploadAvatar(req, res) {
     try {
         const userId = req?.userId //req.userId = decode?.id
@@ -119,7 +119,7 @@ export async function uploadAvatar(req, res) {
 }
 
 
-//////////////////////////////////////      update user          ////////////////////////////////////////
+//////////////////////////////////////      update user     (6)     ////////////////////////////////////////
 
 export async function updateUserDetails(req, res) {
     try {
@@ -144,7 +144,7 @@ export async function updateUserDetails(req, res) {
     }
 }
 
-//////////////////////////////////////      forgot password   (public route)      ////////////////////////////////////////
+//////////////////////////////////////      forgot password   (public route)  (7)    ////////////////////////////////////////
 
 // flow ==> forgotPassword Controller (send otp to email) ===> verify otp controller ===> reset password controller (set new password)
 export async function forgotPasswordSendOtp(req, res) {
@@ -156,7 +156,7 @@ export async function forgotPasswordSendOtp(req, res) {
         const otp = generateOtp()
         console.log("generated otp", otp)
         const expireTime = new Date() + 60 * 60 * 1000
-        console.log("new Date() + 60 * 60 * 1000 ==> ", expireTime)
+        console.log("expireTime : new Date() + 60 * 60 * 1000 ==> ", expireTime)
         console.log("new Date(expireTime).toISOString() ==> ", new Date(expireTime).toISOString())
         console.log("new Date() ==> ", new Date())
         const update = await UserModel.findByIdAndUpdate(user?._id,
@@ -169,7 +169,7 @@ export async function forgotPasswordSendOtp(req, res) {
     }
 }
 
-////////////////////////////////////////// verify otp ///////////////////////////////////////
+////////////////////////////////////////// verify otp  (8) ///////////////////////////////////////
 export async function verifyOtp(req, res) {
     try {
         const { email, otp } = req?.body
@@ -192,7 +192,7 @@ export async function verifyOtp(req, res) {
     }
 }
 
-////////////////////////////////////////// reset password ///////////////////////////////////////
+////////////////////////////////////////// reset password  (9) ///////////////////////////////////////
 export async function resetPassword(req, res) {
     try {
         const { email, newPassword, confirmPassword } = req?.body
@@ -216,15 +216,19 @@ export async function resetPassword(req, res) {
     }
 }
 
-////////////////////////////////////////// refreshToken ///////////////////////////////////////
+////////////////////////////////////////// refreshToken (10) ///////////////////////////////////////
 export async function refreshToken(req, res) {
     try {
         const refreshToken = req?.cookies?.refreshToken || req?.headers["authorization"]?.split(" ")[1]
+      
+console.log("rt",refreshToken)
+
         if (!refreshToken) {
             return res.status(401).json({ message: "unAuthorized!", error: true, success: false })
         }
+
         const verifyToken = jwt.verify(refreshToken, process.env.SECRET_KEY_REFRESH_TOKEN)
-        console.log("verify token", verifyToken)
+   
         if (!verifyToken) {
             return res.status(401).json({ message: "Token Expired!", error: true, success: false })
         }
@@ -234,13 +238,13 @@ export async function refreshToken(req, res) {
         res.cookie("accessToken", newAccessToken, cookiesOption)
         return res.status(200).json({ message: "new access token generated!", data: { accessToken: newAccessToken }, error: false, success: true })
     } catch (error) {
-        console.log(error.message)
+        console.log("err",error.message)
         return res.status(500).json({ message: error.message || error, error: true, success: false })
     }
 }
 
-///////////////////////////////////////////// user details ///////////////////////////////
-////////////////////////////////////////// refreshToken ///////////////////////////////////////
+///////////////////////////////////////////// user details (11) ///////////////////////////////
+
 export async function userDetails(req, res) {
     try {
         const userId = req?.userId //req.userId = decode?.id

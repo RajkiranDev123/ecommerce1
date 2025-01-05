@@ -12,7 +12,7 @@ rajtech6452gmail.com
  npm i multer
  npm i cloudinary
 
- github :
+ github : -m M -u
  git init
 git add .
 git commit -m "first commit"
